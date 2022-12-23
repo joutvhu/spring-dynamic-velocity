@@ -1,6 +1,7 @@
 package com.joutvhu.dynamic.freemarker.directive;
 
 import com.joutvhu.dynamic.commons.directive.TrimSymbol;
+import com.joutvhu.dynamic.freemarker.io.TrimRenderer;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
@@ -33,7 +34,7 @@ public class TrimDirective extends Directive {
 
     @Override
     public boolean render(InternalContextAdapter context, Writer writer, Node node) throws IOException, ResourceNotFoundException, ParseErrorException, MethodInvocationException {
-        TrimWriter.of(writer, createSymbol(context)).render(context, node);
+        TrimRenderer.of(writer, createSymbol(context)).render(context, node);
         return true;
     }
 

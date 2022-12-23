@@ -4,6 +4,7 @@ import com.joutvhu.dynamic.freemarker.directive.SetDirective;
 import com.joutvhu.dynamic.freemarker.directive.TrimDirective;
 import com.joutvhu.dynamic.freemarker.directive.WhereDirective;
 import org.apache.velocity.runtime.RuntimeInstance;
+import org.apache.velocity.runtime.directive.Directive;
 
 /**
  * Freemarker configuration builder.
@@ -31,6 +32,11 @@ public class VelocityTemplateConfiguration {
         ri.addDirective(new SetDirective());
         ri.addDirective(new WhereDirective());
 
+        return this;
+    }
+
+    public VelocityTemplateConfiguration registerDirective(Directive directive) {
+        ri.addDirective(directive);
         return this;
     }
 

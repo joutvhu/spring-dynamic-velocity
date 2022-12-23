@@ -29,7 +29,9 @@ public class VelocityQueryTemplateProvider extends DynamicQueryTemplateProvider 
     @Override
     public DynamicQueryTemplate createTemplate(String name, String content) {
         try {
-            return new VelocityQueryTemplate(name, content, cfg);
+            VelocityQueryTemplate template = new VelocityQueryTemplate(name, content, cfg);
+            template.setEncoding(encoding);
+            return template;
         } catch (ParseException e) {
             e.printStackTrace();
             return null;

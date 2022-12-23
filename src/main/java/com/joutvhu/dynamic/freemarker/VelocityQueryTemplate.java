@@ -21,14 +21,17 @@ public class VelocityQueryTemplate implements DynamicQueryTemplate {
         template.setName(name);
         template.setRuntimeServices(rs);
         template.setData(rs.parse(new StringReader(content), template));
+        template.initDocument();
+    }
+
+    public void setEncoding(String encoding) {
+        template.setEncoding(encoding);
     }
 
     @SneakyThrows
     @Override
     public String process(Map<String, Object> params) {
-        VelocityContext context = new VelocityContext();
-        if (params != null)
-            params.forEach(context::put);
+        VelocityContext context = new VelocityContext(params);
         StringWriter writer = new StringWriter();
         template.merge(context, writer);
         return writer.toString();
