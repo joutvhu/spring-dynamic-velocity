@@ -1,7 +1,7 @@
-package com.joutvhu.dynamic.freemarker.directive;
+package com.joutvhu.dynamic.velocity.directive;
 
 import com.joutvhu.dynamic.commons.directive.TrimSymbol;
-import com.joutvhu.dynamic.freemarker.io.TrimRenderer;
+import com.joutvhu.dynamic.velocity.io.TrimRenderer;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;

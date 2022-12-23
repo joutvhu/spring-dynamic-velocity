@@ -1,4 +1,4 @@
-package com.joutvhu.dynamic.freemarker;
+package com.joutvhu.dynamic.velocity;
 
 import com.joutvhu.dynamic.commons.DynamicQueryTemplate;
 import com.joutvhu.dynamic.commons.DynamicQueryTemplateProvider;

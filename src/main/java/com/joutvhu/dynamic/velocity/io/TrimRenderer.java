@@ -1,4 +1,4 @@
-package com.joutvhu.dynamic.freemarker.io;
+package com.joutvhu.dynamic.velocity.io;
 
 import com.joutvhu.dynamic.commons.directive.TrimSymbol;
 import org.apache.velocity.context.InternalContextAdapter;
@@ -29,7 +29,11 @@ public class TrimRenderer {
     }
 
     public void render(InternalContextAdapter context, Node block) throws IOException {
-        for (int i = 0, len = block.jjtGetNumChildren(); i < len; i++) {
+        render(context, block, 0);
+    }
+
+    public void render(InternalContextAdapter context, Node block, int from) throws IOException {
+        for (int i = from, len = block.jjtGetNumChildren(); i < len; i++) {
             block.jjtGetChild(i).render(context, writer);
         }
         afterWrite();

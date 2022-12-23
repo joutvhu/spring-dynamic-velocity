@@ -1,8 +1,8 @@
-package com.joutvhu.dynamic.freemarker;
+package com.joutvhu.dynamic.velocity;
 
-import com.joutvhu.dynamic.freemarker.directive.SetDirective;
-import com.joutvhu.dynamic.freemarker.directive.TrimDirective;
-import com.joutvhu.dynamic.freemarker.directive.WhereDirective;
+import com.joutvhu.dynamic.velocity.directive.SetDirective;
+import com.joutvhu.dynamic.velocity.directive.TrimDirective;
+import com.joutvhu.dynamic.velocity.directive.WhereDirective;
 import org.apache.velocity.runtime.RuntimeInstance;
 import org.apache.velocity.runtime.directive.Directive;
 
