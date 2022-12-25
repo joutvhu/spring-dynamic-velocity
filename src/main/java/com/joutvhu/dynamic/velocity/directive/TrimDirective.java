@@ -10,10 +10,7 @@ import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.directive.MacroParseException;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.Token;
-import org.apache.velocity.runtime.parser.node.ASTObjectArray;
-import org.apache.velocity.runtime.parser.node.ASTStringLiteral;
-import org.apache.velocity.runtime.parser.node.Node;
-import org.apache.velocity.runtime.parser.node.ParserTreeConstants;
+import org.apache.velocity.runtime.parser.node.*;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -57,10 +54,18 @@ public class TrimDirective extends Directive {
     private String getStringArgument(InternalContextAdapter context, Node node, int index) {
         Node argNode = node.jjtGetChild(index);
         if (argNode instanceof ASTStringLiteral) {
-            Object result = ((ASTStringLiteral) argNode).value(context);
+            Object result = argNode.value(context);
             return result.toString();
+        } else if (argNode instanceof ASTReference) {
+            Object result = argNode.value(context);
+            return result.toString();
+        } else if (argNode instanceof ASTWord) {
+            if ("null".equals(argNode.getFirstTokenImage()))
+                return null;
+            throw new ParseErrorException("Expected argument " + (index + 1) + " of #trim to be a string");
+        } else {
+            throw new ParseErrorException("Expected argument " + (index + 1) + " of #trim to be a string");
         }
-        return null;
     }
 
     private List<String> getArrayArgument(InternalContextAdapter context, Node node, int index) {
@@ -73,6 +78,8 @@ public class TrimDirective extends Directive {
                      result.add(item);
                  }
             }
+        } else {
+            throw new ParseErrorException("Expected argument " + (index + 1) + " of #trim to be a array");
         }
         return result;
     }
@@ -81,14 +88,20 @@ public class TrimDirective extends Directive {
     public void checkArgs(ArrayList<Integer> argtypes, Token t, String templateName) throws ParseException {
         if (argtypes.size() < 4) {
             throw new MacroParseException("Too few arguments to the #trim directive", templateName, t);
-        } else if (argtypes.get(0) != ParserTreeConstants.JJTSTRINGLITERAL) {
-            throw new MacroParseException("Expected string 'in' at argument position 1 in #trim", templateName, t);
-        } else if (argtypes.get(1) != ParserTreeConstants.JJTOBJECTARRAY) {
-            throw new MacroParseException("Expected array 'in' at argument position 2 in #trim", templateName, t);
-        } else if (argtypes.get(2) != ParserTreeConstants.JJTSTRINGLITERAL) {
-            throw new MacroParseException("Expected string 'in' at argument position 3 in #trim", templateName, t);
-        } else if (argtypes.get(3) != ParserTreeConstants.JJTOBJECTARRAY) {
-            throw new MacroParseException("Expected array 'in' at argument position 4 in #trim", templateName, t);
+        } else if (argtypes.get(0) != ParserTreeConstants.JJTSTRINGLITERAL &&
+                argtypes.get(0) != ParserTreeConstants.JJTREFERENCE &&
+                argtypes.get(0) != ParserTreeConstants.JJTWORD) {
+            throw new MacroParseException("Expected argument 1 of #trim to be a string", templateName, t);
+        } else if (argtypes.get(1) != ParserTreeConstants.JJTOBJECTARRAY &&
+                argtypes.get(0) != ParserTreeConstants.JJTREFERENCE) {
+            throw new MacroParseException("Expected argument 2 of #trim to be a array", templateName, t);
+        } else if (argtypes.get(2) != ParserTreeConstants.JJTSTRINGLITERAL &&
+                argtypes.get(0) != ParserTreeConstants.JJTREFERENCE &&
+                argtypes.get(0) != ParserTreeConstants.JJTWORD) {
+            throw new MacroParseException("Expected argument 3 of #trim to be a string", templateName, t);
+        } else if (argtypes.get(3) != ParserTreeConstants.JJTOBJECTARRAY &&
+                argtypes.get(0) != ParserTreeConstants.JJTREFERENCE) {
+            throw new MacroParseException("Expected argument 4 of #trim to be a array", templateName, t);
         }
     }
 }
