@@ -22,20 +22,17 @@ public class TrimRenderer {
         this.symbol = symbol;
     }
 
-    public void afterWrite() throws IOException {
-        String content = writer.toString();
-        content = symbol.process(content);
-        out.write(content);
-    }
-
     public void render(InternalContextAdapter context, Node block) throws IOException {
         render(context, block, 0);
     }
 
-    public void render(InternalContextAdapter context, Node block, int from) throws IOException {
-        for (int i = from, len = block.jjtGetNumChildren(); i < len; i++) {
+    public void render(InternalContextAdapter context, Node block, int offset) throws IOException {
+        for (int i = offset, len = block.jjtGetNumChildren(); i < len; i++) {
             block.jjtGetChild(i).render(context, writer);
         }
-        afterWrite();
+
+        String content = writer.toString();
+        content = symbol.process(content);
+        out.write(content);
     }
 }

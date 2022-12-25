@@ -30,7 +30,7 @@ ext {
             'spring-boot.version'           : '2.7.0',
             'spring-framework.version'      : '5.3.20',
             'spring-dynamic-commons.version': '2.0.0',
-            'velocity.version'              : '1.7',
+            'velocity.version'              : '2.3',
             'commons-lang3.version'         : '3.12.0'
     ]
     managedVersions = [
@@ -39,7 +39,7 @@ ext {
             'org.springframework:spring-jcl'            : 'spring-framework.version',
             'org.springframework:spring-context-support': 'spring-framework.version',
             'com.github.joutvhu:spring-dynamic-commons' : 'spring-dynamic-commons.version',
-            'org.apache.velocity:velocity'              : 'velocity.version',
+            'org.apache.velocity:velocity-engine-core'  : 'velocity.version',
             'org.apache.commons:commons-lang3'          : 'commons-lang3.version'
     ]
     otherVersions = [
@@ -63,8 +63,7 @@ dependencies {
 
     implementation 'com.github.joutvhu:spring-dynamic-commons'
 
-    implementation 'org.apache.velocity:velocity-engine-core:2.3'
-//    implementation 'org.apache.velocity:velocity'
+    implementation 'org.apache.velocity:velocity-engine-core'
     implementation 'org.apache.commons:commons-lang3'
 
     compileOnly 'org.projectlombok:lombok:1.18.24'

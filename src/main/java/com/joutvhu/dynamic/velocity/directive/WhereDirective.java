@@ -15,7 +15,7 @@ import java.io.Writer;
 /**
  * The where directive knows to only insert "WHERE" if there is any content returned by the containing tags,
  * If that content begins or ends with "AND" or "OR", it knows to strip it off.
- * They are used in templates like {@code <@where>...</@where>}
+ * They are used in templates like {@code #where...#end}
  *
  * @author Giao Ho
  * @since 1.0.0

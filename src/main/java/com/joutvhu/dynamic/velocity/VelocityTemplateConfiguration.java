@@ -7,7 +7,7 @@ import org.apache.velocity.runtime.RuntimeInstance;
 import org.apache.velocity.runtime.directive.Directive;
 
 /**
- * Freemarker configuration builder.
+ * Velocity configuration builder.
  *
  * @author Giao Ho
  * @since 1.0.0

@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * FreemarkerQueryTemplateProvider
+ * Velocity dynamic query template provider.
  *
  * @author Giao Ho
  * @since 1.0.0
@@ -22,9 +22,12 @@ public class VelocityQueryTemplateProvider extends DynamicQueryTemplateProvider 
     private static final Log log = LogFactory.getLog(VelocityQueryTemplateProvider.class);
 
     private final Map<String, DynamicQueryTemplate> templateCache = new HashMap<>();
-    private static RuntimeInstance cfg = VelocityTemplateConfiguration
-            .instanceWithDefault()
-            .configuration();
+    private VelocityTemplateConfiguration configuration;
+    private RuntimeInstance cfg;
+
+    public void setConfiguration(VelocityTemplateConfiguration configuration) {
+        this.configuration = configuration;
+    }
 
     @Override
     public DynamicQueryTemplate createTemplate(String name, String content) {
@@ -48,5 +51,13 @@ public class VelocityQueryTemplateProvider extends DynamicQueryTemplateProvider 
         if (templateCache.containsKey(name))
             log.warn("Found duplicate template key, will replace the value, key: " + name);
         templateCache.put(name, createTemplate(name, content));
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        if (configuration == null)
+            configuration = VelocityTemplateConfiguration.instanceWithDefault();
+        cfg = configuration.configuration();
+        super.afterPropertiesSet();
     }
 }

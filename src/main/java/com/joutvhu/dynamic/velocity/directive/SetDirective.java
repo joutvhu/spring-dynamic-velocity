@@ -15,7 +15,7 @@ import java.io.Writer;
 /**
  * The set directive knows to only insert "SET" if there is any content returned by the containing tags,
  * If that content begins or ends with ",", it knows to strip it off.
- * They are used in templates like {@code <@set>...</@set>}
+ * They are used in templates like {@code #set...#end}
  *
  * @author Giao Ho
  * @since 1.0.0
