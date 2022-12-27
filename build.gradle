@@ -136,7 +136,7 @@ publishing {
 
             pom {
                 name = project.name
-                description = ''
+                description = 'Velocity dynamic query template provider.'
                 url = 'https://github.com/joutvhu/spring-dynamic-velocity'
                 licenses {
                     license {
