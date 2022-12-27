@@ -7,10 +7,14 @@ import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.directive.Directive;
+import org.apache.velocity.runtime.directive.MacroParseException;
+import org.apache.velocity.runtime.parser.ParseException;
+import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.node.Node;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayList;
 
 /**
  * The where directive knows to only insert "WHERE" if there is any content returned by the containing tags,
@@ -39,5 +43,12 @@ public class WhereDirective extends Directive {
     public boolean render(InternalContextAdapter context, Writer writer, Node node) throws IOException, ResourceNotFoundException, ParseErrorException, MethodInvocationException {
         TrimRenderer.of(writer, symbol).render(context, node);
         return true;
+    }
+
+    @Override
+    public void checkArgs(ArrayList<Integer> argtypes, Token t, String templateName) throws ParseException {
+        if (argtypes.size() > 0) {
+            throw new MacroParseException("The #where directive requires no arguments", templateName, t);
+        }
     }
 }
