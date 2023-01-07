@@ -36,7 +36,7 @@ public class VelocityQueryTemplateProvider extends DynamicQueryTemplateProvider 
             template.setEncoding(encoding);
             return template;
         } catch (ParseException e) {
-            e.printStackTrace();
+            log.error(e);
             return null;
         }
     }

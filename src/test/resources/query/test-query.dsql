@@ -1,0 +1,11 @@
+-- User:findByGroup
+select t from User t
+#if($group.name.startsWith("Git"))
+  where t.groupId = :#{#group.id}
+#end
+
+-- User:findByRole
+select t from User t
+#if($role != $null && $role != '')
+  where t.role = :role
+#end

@@ -81,7 +81,7 @@ public class TrimDirective extends Directive {
             for (int i = 0, len = argNode.jjtGetNumChildren(); i < len; i++) {
                 Node itemNode = argNode.jjtGetChild(i);
                 if (itemNode instanceof ASTStringLiteral || itemNode instanceof ASTReference) {
-                    Object item = argNode.value(context);
+                    Object item = itemNode.value(context);
                     result.add(item.toString());
                 } else {
                     throw new ParseErrorException(MessageFormat

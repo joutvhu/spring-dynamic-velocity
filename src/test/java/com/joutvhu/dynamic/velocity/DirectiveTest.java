@@ -1,8 +1,7 @@
 package com.joutvhu.dynamic.velocity;
 
-import com.joutvhu.dynamic.velocity.directive.TrimDirective;
-import com.joutvhu.dynamic.velocity.directive.WhereDirective;
 import org.apache.velocity.runtime.RuntimeInstance;
+import org.apache.velocity.runtime.parser.ParseException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -12,14 +11,13 @@ import java.util.HashMap;
 class DirectiveTest {
     @ParameterizedTest
     @CsvSource({
-            "'where', '#where \nand (abcd) or\n#end', ' where (abcd) '",
-            "'where', '#where \nor\n   abcd  \nand\n \n#end', ' where abcd '",
-            "'where', '#where \n\nOR\n   abcd  \nAND\n \n#end', ' where abcd '",
-            "'set', '#set \n,abcd, \n#end', ' set abcd '",
-            "'set', '#set \n\n , abcd ,\n#end', ' set abcd '",
-            "'trim', '#trim (\"69\", [\"a\"], \"e\", [\"b\"]) \na abcd b\n#end', ' 69 abcd e '",
+            "'where', '#where () abcd #end', ' where abcd '",
+            "'where', '#where and (abcd) or#end', ' where (abcd) '",
+            "'where', '#where \nor\n   abcd  \nand\n #end', ' where abcd '",
+            "'where', '#where \nOR\n   abcd  \nAND\n #end', ' where abcd '",
+            "'where', '#where OR (a = ''0'' OR b = ''Y'') AND c is not null AND #end', ' where (a = ''0'' OR b = ''Y'') AND c is not null '",
     })
-    void testDirectives(String name, String source, String expected) throws Exception {
+    void testWhereDirectives(String name, String source, String expected) throws ParseException {
         RuntimeInstance cfg = VelocityTemplateConfiguration
                 .instanceWithDefault()
                 .configuration();
@@ -30,12 +28,13 @@ class DirectiveTest {
 
     @ParameterizedTest
     @CsvSource({
-            "'where', '#where () abcd #end', ' where abcd '",
+            "'set', '#set ,abcd, #end', ' set abcd '",
+            "'set', '#set\n , abcd ,#end', ' set abcd '",
+            "'set', '#set , a = 1 , b = 2, c = 3, #end', ' set a = 1 , b = 2, c = 3 '",
     })
-    void testWhereDirectives(String name, String source, String expected) throws Exception {
+    void testSetDirective(String name, String source, String expected) throws ParseException {
         RuntimeInstance cfg = VelocityTemplateConfiguration
-                .instance()
-                .registerDirective(new WhereDirective())
+                .instanceWithDefault()
                 .configuration();
         VelocityQueryTemplate template = new VelocityQueryTemplate(name, source, cfg);
         String queryString = template.process(new HashMap<>());
@@ -44,12 +43,14 @@ class DirectiveTest {
 
     @ParameterizedTest
     @CsvSource({
-            "'trim', '#trim (\"69\", [\"a\"], \"e\", [\"b\"]) \na abcd b\n#end', ' 69 abcd e '",
+            "'trim', '#trim (\"69\", [\"a\"], \"e\", [\"b\"]) a abcd b #end', ' 69 abcd e '",
+            "'trim', '#trim (null, [\"s\"], \"e\", [\"b\"]) \ns abcd b\n#end', ' abcd e '",
+            "'trim', '#trim (\"set\", [\",\"], null, [\",\"]), a = ''Y'', b = ''N'',  #end', ' set a = ''Y'', b = ''N'' '",
+            "'trim', '#trim (\"where\", [\"and\", \"or\"], null, [\"and\", \"or\"]) and (a = ''0'' or b = ''Y'') and c is not null or #end', ' where (a = ''0'' or b = ''Y'') and c is not null '",
     })
-    void testTrimDirectives(String name, String source, String expected) throws Exception {
+    void testTrimDirective(String name, String source, String expected) throws ParseException {
         RuntimeInstance cfg = VelocityTemplateConfiguration
-                .instance()
-                .registerDirective(new TrimDirective())
+                .instanceWithDefault()
                 .configuration();
         VelocityQueryTemplate template = new VelocityQueryTemplate(name, source, cfg);
         String queryString = template.process(new HashMap<>());
