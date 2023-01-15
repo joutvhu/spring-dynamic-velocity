@@ -21,7 +21,7 @@ class DirectiveTest {
         RuntimeInstance cfg = VelocityTemplateConfiguration
                 .instanceWithDefault()
                 .configuration();
-        VelocityQueryTemplate template = new VelocityQueryTemplate(name, source, cfg);
+        VelocityQueryTemplate template = new VelocityQueryTemplate(name, source, "UTF-8", cfg);
         String queryString = template.process(new HashMap<>());
         Assertions.assertEquals(expected, queryString);
     }
@@ -36,7 +36,7 @@ class DirectiveTest {
         RuntimeInstance cfg = VelocityTemplateConfiguration
                 .instanceWithDefault()
                 .configuration();
-        VelocityQueryTemplate template = new VelocityQueryTemplate(name, source, cfg);
+        VelocityQueryTemplate template = new VelocityQueryTemplate(name, source, "UTF-8", cfg);
         String queryString = template.process(new HashMap<>());
         Assertions.assertEquals(expected, queryString);
     }
@@ -52,7 +52,7 @@ class DirectiveTest {
         RuntimeInstance cfg = VelocityTemplateConfiguration
                 .instanceWithDefault()
                 .configuration();
-        VelocityQueryTemplate template = new VelocityQueryTemplate(name, source, cfg);
+        VelocityQueryTemplate template = new VelocityQueryTemplate(name, source, "UTF-8", cfg);
         String queryString = template.process(new HashMap<>());
         Assertions.assertEquals(expected, queryString);
     }

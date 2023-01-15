@@ -16,16 +16,13 @@ import java.util.Map;
 public class VelocityQueryTemplate implements DynamicQueryTemplate {
     private final Template template;
 
-    public VelocityQueryTemplate(String name, String content, RuntimeServices rs) throws ParseException {
+    public VelocityQueryTemplate(String name, String content, String encoding, RuntimeServices rs) throws ParseException {
         template = new Template();
         template.setName(name);
+        template.setEncoding(encoding);
         template.setRuntimeServices(rs);
         template.setData(rs.parse(new StringReader(content), template));
         template.initDocument();
-    }
-
-    public void setEncoding(String encoding) {
-        template.setEncoding(encoding);
     }
 
     @SneakyThrows
