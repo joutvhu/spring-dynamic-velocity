@@ -40,6 +40,61 @@ class VelocityQueryTemplateProviderTest {
     }
 
     @Test
+    void testCreateTemplate_Set0() {
+        DynamicQueryTemplate template = provider.createTemplate("test", "update User t\n" +
+                "#set\n" +
+                "  t.firstName = :firstName,\n" +
+                "  t.lastName = :lastName,\n" +
+                "  #if($address != $null)\n" +
+                "    t.address = :address,\n" +
+                "  #end\n" +
+                "#end");
+        Map<String, Object> params = new HashMap<>();
+        String result = template.process(params);
+        Assertions.assertEquals("update User t\n" +
+                " set t.firstName = :firstName,\n" +
+                "  t.lastName = :lastName ", result);
+    }
+
+    @Test
+    void testCreateTemplate_Set1() {
+        DynamicQueryTemplate template = provider.createTemplate("test", "update User t\n" +
+                "#set($address = 'test')\n" +
+                "#set\n" +
+                "  t.firstName = :firstName,\n" +
+                "  t.lastName = :lastName,\n" +
+                "  #if($address != $null)\n" +
+                "    t.address = :address,\n" +
+                "  #end\n" +
+                "#end");
+        Map<String, Object> params = new HashMap<>();
+        String result = template.process(params);
+        Assertions.assertEquals("update User t\n" +
+                " set t.firstName = :firstName,\n" +
+                "  t.lastName = :lastName,\n" +
+                "    t.address = :address ", result);
+    }
+
+    @Test
+    void testCreateTemplate_Set2() {
+        DynamicQueryTemplate template = provider.createTemplate("test", "update User t\n" +
+                "#set\n" +
+                "  #set($address = 'test')\n" +
+                "  t.firstName = :firstName,\n" +
+                "  t.lastName = :lastName,\n" +
+                "  #if($address != $null)\n" +
+                "    t.address = :address,\n" +
+                "  #end\n" +
+                "#end");
+        Map<String, Object> params = new HashMap<>();
+        String result = template.process(params);
+        Assertions.assertEquals("update User t\n" +
+                " set t.firstName = :firstName,\n" +
+                "  t.lastName = :lastName,\n" +
+                "    t.address = :address ", result);
+    }
+
+    @Test
     void testCreateTemplate_Error() {
         DynamicQueryTemplate template = provider.createTemplate("test", "select t from User t\n" +
                 "#where\n" +

@@ -63,6 +63,9 @@ update User t
 where t.userId = :userId
 ```
 
+Note to avoid confusion with [the #set directive used for setting the value of a reference](https://velocity.apache.org/engine/devel/user-guide.html#set).
+This `#set` directive is a block of `#set` _(without parameters)_ and `#end`.
+
 ### Trim Directive
 
 `#trim` directive has four parameters: `prefix`, `prefixOverrides`, `suffix`, `suffixOverrides`.
