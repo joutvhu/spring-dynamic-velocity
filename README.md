@@ -1,6 +1,6 @@
 # Spring Dynamic Velocity
 
-A dynamic query template provider base on [Apache Velocity](https://velocity.apache.org) template engine.
+A [Dynamic Query Template Provider](https://github.com/joutvhu/spring-dynamic-commons#dynamic-query-template-provider) base on [Apache Velocity](https://velocity.apache.org) template engine.
 
 You can refer to [Velocity Document](https://velocity.apache.org/engine/devel/user-guide.html) to know more about rules.
 
